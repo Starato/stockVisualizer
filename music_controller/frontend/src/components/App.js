@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import HomePage from './HomePage';
-import Header from './Header';
 
 export default class App extends Component {
     constructor(props) {
@@ -11,9 +10,6 @@ export default class App extends Component {
     render(){
         return(
         <div id='app' >
-            <div id='headerContainer'>
-                <Header />
-            </div>
             <div id='homePageContainer'>
                 <HomePage />
             </div>
