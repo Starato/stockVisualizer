@@ -1,88 +1,82 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+    FormControl,
+    Grid,
+    Button,
+    TextField,
+    Typography
+} from '@mui/material';
+ 
+export default function BodyPage() {
 
-export default class BodyPage extends Component {
-    constructor(props) {
-        super(props);
+    const [ticker, setTicker] = useState('');
+    const [error, setError] = useState(false);
+    const [btnError, setBtnError] = useState(false);
 
-        this.handleSearchAutocomplete = this.handleSearchAutocomplete.bind(this);
+    // function handleSearchAutocomplete(e) {
+
+    //     const requestOptions = {
+    //         method: 'POST',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body: JSON.stringify({
+    //             ticker: ticker
+    //         }),
+    //     };
+    
+    //     if(ticker != ""){
+    //         fetch('/api/stock', requestOptions)
+    //             .then((response) => response.json())
+    //             .then((data) => console.log(data));
+    //     }
+    //     if(this.state.ticker == ""){
+    //         console.log(ticker);
+    //         console.log(error);
+    
+    //     }
+    // }
+    
+    function updateTicker(e) {
+
+        setTicker(e.target.value);
+        if(e.target.value == ""){ 
+            setError(true);
+            setBtnError(true)
+        }
+        if(e.target.value != ""){
+            setError(false);
+            setBtnError(false);
+        }
+
     }
 
-    handleSearchAutocomplete(e) {
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                ticker: e.target.value
-            }),
-        };
+    return (
+        <Grid item xs={12}>
+            <Typography component='h3' variant='h3'>Stock Data Visualizer</Typography>
+            <FormControl>
+                <TextField required={ true }
+                    error={ error }
+                    helperText={ error == true ? "Empty Field!" : "" }
+                    label='Ticker Symbol'
+                    variant='outlined'
+                    autoFocus
+                    placeholder='IBM, Gamestop'
+                    onChange={ updateTicker }/>
+            </FormControl>
+            <Button size='large' 
+                variant='contained' 
+                disabled={ btnError }
+                to={{
+                    pathname: `/ticker-results/${ticker}`,
+            
+                }} 
+                component={ Link } 
+            >
+            GO
+            </Button>
+        </Grid>
+    );
 
-        fetch('/api/stock', requestOptions)
-            .then((response) => response.json())
-            .then((data) => console.log(data['bestMatches']));
-        
-        e.preve
-    }
-
-    render(){
-        return (
-            <div>
-                <div id='headerBanner'>
-                    <div class='center' id='titleContainer'>
-                        <h1>Stock Data Visualizer</h1>
-                    </div>
-                    <div id='searchContainer'>
-                        <form>
-                            <input autoFocus type='text' id='searchBar' placeholder='IBM' onBlur={ this.handleSearchAutocomplete }></input>
-                        </form>
-                    </div> 
-                </div>
-                <label>Chart Type</label>
-                <select>
-                    <option>Bar</option>
-                    <option>Line</option>
-                </select>
     
-                <br></br>
-                <br></br>
-    
-    
-                <label>Interval</label>
-                <select>
-                    <optin>Intraday</optin>
-                    <option>Daily</option>
-                    <option>Weekly</option>
-                    <option>Monthly</option>
-                </select>
-    
-                <br></br>
-                <br></br>
-    
-    
-                <label>Intraday</label>
-                <select>
-                    <option>1 min</option>
-                    <option>5 min</option>
-                    <option>15 min</option>
-                    <option>30 min</option>
-                    <option>60 min</option>
-                </select>
-    
-                <br></br>
-                <br></br>
-    
-    
-                <label>Start Date</label>
-                <input type='text' placeholder='YYYY-MM-DD'></input>
-    
-                <br></br>
-                <br></br>
-    
-    
-                <label>End Date</label>
-                <input type='text' placeholder='YYYY-MM-DD'></input>
-    
-            </div>
-        )
-    }
     
 }

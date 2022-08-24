@@ -40,7 +40,7 @@ class StockHomeView(generics.ListAPIView):
     queryset = Stock.objects.all()
     serializer_class = StockDataSerializer
 
-class testView(APIView):
+class Stock(APIView):
     # serializer_class = testSerializer
 
     def post(self, request, format=None):
