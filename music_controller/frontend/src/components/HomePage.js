@@ -1,25 +1,23 @@
 import React from "react";
-import TickerResult from './TickerResult';
-import Body from './Body';
-import Error from './Error';
 import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Link,
-    Redirect
 } from "react-router-dom";
+import Button from '@mui/material/Button';
+import SearchTicker from './SearchTicker';
+// import TickerResult from './TickerResult';
 
 export default function HomePage() {
 
     return(
         <div>
-        <Router>
-            <Routes>
-                <Route exact path='/' element={ <Body /> } />
-                <Route path='/ticker-results/:tickerSymbol'  element={ <TickerResult /> } />
-            </Routes>
-        </Router>
+            <Router>
+                <Routes>
+                    <Route exact path='/' element={ <SearchTicker /> } />
+                    {/* <Route path='/ticker-results/:tickerSymbol'  element={ <TickerResult /> } /> */}
+                </Routes>
+            </Router>
         </div>
     );
     
