@@ -6,6 +6,10 @@ html, body {
 }
 
 .centerText {
+    text-align: center;
+}
+
+.centerResultsContainer {
     display: flex;
     justify-content: center;
 }
