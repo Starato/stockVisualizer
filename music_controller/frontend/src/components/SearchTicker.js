@@ -14,7 +14,6 @@ export default function BodyPage() {
 
     const [ticker, setTicker] = useState('');
     const [error, setError] = useState(false);
-    const [btnError, setBtnError] = useState(false);
     const [tickerResults, setTickerResults] = useState(null);
 
     useEffect(() => {
@@ -22,33 +21,30 @@ export default function BodyPage() {
     });
     
     function updateTicker(e) {
-        const value = e.target.value.trim();
-        setTicker(value.toUpperCase());
 
-        if(value == ""){ 
-            setError(true);
-            setBtnError(true)
-        }
-        if(value != ""){
-            setError(false);
-            setBtnError(false);
-        }
+        const value = e.target.value;
+
+        setTicker(value.toUpperCase());
+        setError(false);
 
     }
 
     function handleSearchAutocomplete() {
 
+        if(ticker.trim() == "") { return setError(true); }
+
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                ticker: ticker
+                ticker: ticker.trim()
             }),
         };
     
         fetch('/api/stock', requestOptions)
             .then((response) => response.json())
             .then((data) => setTickerResults(data))
+            // .then((data) => console.log(data))
             .then(setTicker(''));
         
     }
@@ -57,25 +53,25 @@ export default function BodyPage() {
         <Grid item xs={12}>
             <Typography component='h3' variant='h3'>Stock Data Visualizer</Typography>
             <FormControl>
-                <TextField required={ true }
+                <TextField 
+                    autoFocus
+                    required={ true }
                     error = { error }
                     helperText = { error == true ? "Empty Field!" : "" }
                     label = 'Ticker Symbol'
                     variant = 'outlined'
-                    autoFocus
                     value = { ticker }
-                    placeholder = 'IBM, Gamestop'
+                    placeholder = 'IBM, Best buy'
                     onChange = { updateTicker }/>
             </FormControl>
-
-            <Button size ='large' 
+            <Button 
+                size ='large' 
                 variant ='contained' 
-                disabled = { btnError }
+                disabled = { error }
                 onClick = { handleSearchAutocomplete } >
             GO
-            </Button>
-            
-            <Typography>
+            </Button>  
+            <Typography class='centerResultsContainer'>
                 {tickerResults && <TickerResult tickers={tickerResults} />}
             </Typography>
         </Grid>
@@ -83,7 +79,6 @@ export default function BodyPage() {
     );
 
     //TODO:
-    //Styling
-    
+    //Styling    
     
 }

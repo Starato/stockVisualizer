@@ -1,35 +1,52 @@
 import React from 'react';
 // import { Link, useParams } from 'react-router-dom';
 import { 
-    Grid,
+    List,
     ListItemText,
     ListItemButton,
 } from '@mui/material';
 export default function TickerResult(props) {
 
-    // const error = "I'm using the free Alphavantage API, you have exceeded the max free API calls. Please try again in a few minutes.";
-    const suggestedTickers = props.tickers['bestMatches'];
-    // const noResult = props.tickers['bestMatches'].lengt > 0 ? "" : "No Match Found";
+    const suggestedTickers = props.tickers['bestMatches'] ? props.tickers['bestMatches'] : "";
+    const maxAPI = props.tickers['Note'] ? props.tickers['Note'] : "";
 
     return(
         <div>
-            {/* <Button to='/' component={ Link } >Home</Button> */}
-            <p>Results</p>
-            <Grid>{suggestedTickers.map((symbol) => (
+            <p class='centerText'>Results</p>
+            
+            <List>
+                {/* api returns suggestions */}
+                { suggestedTickers.length > 0 && 
+                    suggestedTickers.map((symbol) => (
+                        <ListItemButton>
+                            <ListItemText primary={ `${symbol['1. symbol']} : ${symbol['2. name']}` } />
+                        </ListItemButton>
+                    ))
+                }
+
+                {/* api does not return suggestions */}
+                {
+                    (suggestedTickers.length == 0 && maxAPI == "" ) && 
                     <ListItemButton>
-                        <ListItemText primary={`${symbol['1. symbol']} : ${symbol['2. name']}`} />
+                        <ListItemText primary="No Match Found" />
                     </ListItemButton>
-                    ))}
-            </Grid>
-            <p>{ noResult }</p>
+                }
+
+                {/* max free api calls reached */}
+                {
+                    maxAPI && 
+                    <ListItemButton>
+                        <ListItemText primary="Max free API calls reached. Please try again in a few minutes." />
+                    </ListItemButton>
+                }
+            </List>
         </div>
-        
     );
 
     //TODO:
+    //Styling
     //Make these results clickable and redirect to a component with graph options
-    //Fix No Match Found, currently shows at all times
-    //Fix max api error message
+    
     
     
 }
