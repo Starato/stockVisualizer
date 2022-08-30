@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import {
     FormControl,
     Grid,
@@ -9,7 +8,6 @@ import {
 } from '@mui/material';
 import TickerResult from './TickerResult';
 
- 
 export default function BodyPage() {
 
     const [ticker, setTicker] = useState('');
