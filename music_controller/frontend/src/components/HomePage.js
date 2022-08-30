@@ -4,7 +4,7 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
-import Button from '@mui/material/Button';
+import GraphOptions from './GraphOptions';
 import SearchTicker from './SearchTicker';
 // import TickerResult from './TickerResult';
 
@@ -14,8 +14,8 @@ export default function HomePage() {
         <div>
             <Router>
                 <Routes>
-                    <Route exact path='/' element={ <SearchTicker /> } />
-                    {/* <Route path='/ticker-results/:tickerSymbol'  element={ <TickerResult /> } /> */}
+                    <Route exact path='/home' element={ <SearchTicker /> } />
+                    <Route path='/ticker-results/:tickerSymbol'  element={ <GraphOptions /> } />
                 </Routes>
             </Router>
         </div>

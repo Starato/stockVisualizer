@@ -1,14 +1,17 @@
 import React from 'react';
-// import { Link, useParams } from 'react-router-dom';
 import { 
     List,
     ListItemText,
     ListItemButton,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
 export default function TickerResult(props) {
 
     const suggestedTickers = props.tickers['bestMatches'] ? props.tickers['bestMatches'] : "";
     const maxAPI = props.tickers['Note'] ? props.tickers['Note'] : "";
+
+    let navigate = useNavigate();
 
     return(
         <div>
@@ -18,7 +21,10 @@ export default function TickerResult(props) {
                 {/* api returns suggestions */}
                 { suggestedTickers.length > 0 && 
                     suggestedTickers.map((symbol) => (
-                        <ListItemButton>
+                        <ListItemButton 
+                            onClick={() => {
+                                navigate(`/ticker-results/${symbol['1. symbol']}`)
+                            }}>
                             <ListItemText primary={ `${symbol['1. symbol']} : ${symbol['2. name']}` } />
                         </ListItemButton>
                     ))
@@ -45,7 +51,6 @@ export default function TickerResult(props) {
 
     //TODO:
     //Styling
-    //Make these results clickable and redirect to a component with graph options
     
     
     
