@@ -26,7 +26,8 @@ export default function GraphOptions() {
     const [endDate, setEndDate] = useState(today);
     const chartStartDate = startDate;
     const chartEndDate = endDate;
-    const params = {chart: chart,
+    const params = {ticker: tickerSymbol,
+                    chart: chart,
                     timeSeries: timeSeries,
                     timeInterval: timeInterval,
                     chartStartDate: chartStartDate,
@@ -43,7 +44,6 @@ export default function GraphOptions() {
     return (
         <div>
             <p>Graph Options</p>
-            <p>{ tickerSymbol }</p>
             <FormControl>
                 <FormLabel>Chart Type</FormLabel>
                 <RadioGroup

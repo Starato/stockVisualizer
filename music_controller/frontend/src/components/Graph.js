@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
+import { jsx } from '@emotion/react';
 
 export default function Graph() {
 
@@ -19,6 +20,7 @@ export default function Graph() {
   // }
 
   const [searchParams] = useSearchParams();
+  const ticker = searchParams.get('ticker');
   const chartType = searchParams.get('chart');
   const timeSeries = searchParams.get('timeSeries');
   const timeInterval = searchParams.get('timeInterval');
@@ -28,6 +30,7 @@ export default function Graph() {
   return (
     <div>
       <p>graph</p>
+      <p>{ ticker }</p>
       <p>{ chartType }</p>
       <p>{ timeSeries }</p>
       <p>{ timeInterval }</p>
