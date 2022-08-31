@@ -1,9 +1,7 @@
 from django.urls import path, include
-# from .views import RoomView, CreateRoomView
-from .views import Stock
+from .views import Stock, Graph
 
 urlpatterns = [
-    # path('room', RoomView.as_view()),
-    # path('create-room', CreateRoomView.as_view())
-    path('stock', Stock.as_view())
+    path('stock', Stock.as_view()),
+    path('graph', Graph.as_view())
 ]

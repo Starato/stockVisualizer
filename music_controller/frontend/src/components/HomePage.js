@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import GraphOptions from './GraphOptions';
 import SearchTicker from './SearchTicker';
+import Graph from './Graph';
 // import TickerResult from './TickerResult';
 
 export default function HomePage() {
@@ -16,6 +17,7 @@ export default function HomePage() {
                 <Routes>
                     <Route exact path='/home' element={ <SearchTicker /> } />
                     <Route path='/ticker-results/:tickerSymbol'  element={ <GraphOptions /> } />
+                    <Route path='/graph' element={ <Graph /> } />
                 </Routes>
             </Router>
         </div>
