@@ -5,6 +5,7 @@ from .models import Stock
 from .serializers import StockDataSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from api.key import key
 
 class StockHomeView(generics.ListAPIView):
     queryset = Stock.objects.all()
@@ -20,8 +21,7 @@ class Stock(APIView):
             json_body = json.loads(body_unicode)
             ticker = json_body["ticker"]
 
-            APIkey = "TN4N0BLKKUHTCFZG"
-            searchEndpoint = f"https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={ticker}&apikey={APIkey}"
+            searchEndpoint = f"https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={ticker}&apikey={key}"
             r = requests.get(searchEndpoint)
             suggestTicker = r.json()
 
