@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, createSearchParams } from 'react-router-dom';
 import { 
     FormControl,
     FormLabel,
     FormControlLabel,
     RadioGroup,
     Radio,
+    Button,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,12 +15,27 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function GraphOptions() {
 
+    const today = new Date();
+    const navigate = useNavigate();
+
     const { tickerSymbol } = useParams();
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [chart, setChart] = useState("Line");
+    const [timeSeries, setTimeSeries] = useState("Intraday");
+    const [timeInterval, setTimeInterval] = useState("1min");
+    const [startDate, setStartDate] = useState(today);
+    const [endDate, setEndDate] = useState(today);
+    const chartStartDate = startDate;
+    const chartEndDate = endDate;
+    const params = {chart: chart,
+                    timeSeries: timeSeries,
+                    timeInterval: timeInterval,
+                    chartStartDate: chartStartDate,
+                    chartEndDate: chartEndDate
+                    };
+    
 
     //TODO:
-    //Send all info to another component
+    //conditional show for intraday
     //use that info to fetch stock data api 
     //open a new tab with pygal
     //final styling
@@ -34,6 +50,7 @@ export default function GraphOptions() {
                     row
                     defaultValue="Line"
                     name="chart-type-radio"
+                    onChange={ (e) => {setChart(e.target.value)} }
                 >
                     <FormControlLabel value="Line" control={ <Radio /> } label="Line" />
                     <FormControlLabel value="Bar" control={ <Radio /> } label="Bar" />
@@ -44,6 +61,7 @@ export default function GraphOptions() {
                     row
                     defaultValue="Intraday"
                     name="time-series-radio"
+                    onChange={ (e) => {setTimeSeries(e.target.value)} }
                 >
                     <FormControlLabel value="Intraday" control={ <Radio /> } label="Intraday" />
                     <FormControlLabel value="Daily" control={ <Radio /> } label="Daily" />
@@ -54,19 +72,32 @@ export default function GraphOptions() {
                 <FormLabel>Time Interval</FormLabel>
                 <RadioGroup
                     row
-                    defaultValue="1 Minute"
+                    defaultValue="1min"
                     name="time-interval-radio"
+                    onChange={ (e) => {setTimeInterval(e.target.value)} }
                 >
-                    <FormControlLabel value="1 Minute" control={ <Radio /> } label="1 Minute" />
-                    <FormControlLabel value="5 Minutes" control={ <Radio /> } label="5 Minutes" />
-                    <FormControlLabel value="15 Minutes" control={ <Radio /> } label="15 Minutes" />
-                    <FormControlLabel value="30 Minutes" control={ <Radio /> } label="30 Minutes" />
-                    <FormControlLabel value="60 Minutes" control={ <Radio /> } label="60 Minutes" />
+                    <FormControlLabel value="1min" control={ <Radio /> } label="1 Minute" />
+                    <FormControlLabel value="5min" control={ <Radio /> } label="5 Minutes" />
+                    <FormControlLabel value="15min" control={ <Radio /> } label="15 Minutes" />
+                    <FormControlLabel value="30min" control={ <Radio /> } label="30 Minutes" />
+                    <FormControlLabel value="60min" control={ <Radio /> } label="60 Minutes" />
                 </RadioGroup>
 
+                <Button
+                    size='large'
+                    variant='contained'
+                    onClick={ () => navigate({
+                        pathname: '/graph',
+                        search: `?${createSearchParams(params)}`
+                    })}
+                    
+                >
+                GO
+                </Button>
             </FormControl>
             <LocalizationProvider dateAdapter={AdapterDayjs} >
                 <DatePicker 
+                    required={ true }
                     label="Start Date"
                     inputFormat="MM/DD/YYYY"
                     value={ startDate }
@@ -77,6 +108,7 @@ export default function GraphOptions() {
                 />
 
                 <DatePicker 
+                    required={ true }
                     label="End Date"
                     inputFormat="MM/DD/YYYY"
                     value={ endDate }
