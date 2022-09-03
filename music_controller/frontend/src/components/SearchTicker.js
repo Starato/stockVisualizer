@@ -19,12 +19,10 @@ export default function BodyPage() {
     });
     
     function updateTicker(e) {
-
         const value = e.target.value;
 
         setTicker(value.toUpperCase());
         setError(false);
-
     }
 
     function handleSearchAutocomplete() {
@@ -42,9 +40,15 @@ export default function BodyPage() {
         fetch('/api/stock', requestOptions)
             .then((response) => response.json())
             .then((data) => setTickerResults(data))
-            // .then((data) => console.log(data))
             .then(setTicker(''));
         
+    }
+
+    function enterSubmit(e) {
+        if(e.key === 'Enter') {
+            handleSearchAutocomplete();
+            e.preventDefault();
+        }
     }
 
     return (
@@ -60,7 +64,9 @@ export default function BodyPage() {
                     variant = 'outlined'
                     value = { ticker }
                     placeholder = 'IBM, Best buy'
-                    onChange = { updateTicker }/>
+                    onChange = { updateTicker } 
+                    onKeyDown={ enterSubmit }
+                    />
             </FormControl>
             <Button 
                 size ='large' 
@@ -74,9 +80,5 @@ export default function BodyPage() {
             </Typography>
         </Grid>
 
-    );
-
-    //TODO:
-    //Styling    
-    
+    );    
 }
