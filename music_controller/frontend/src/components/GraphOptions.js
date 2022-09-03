@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, createSearchParams } from 'react-router-dom';
 import { 
     FormControl,
@@ -15,34 +15,47 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function GraphOptions() {
 
+    //Doesn't seem like Alphavantage has today's stock data, so we start the calendar at yesterdays date.
     const today = new Date();
+    const yesterday = new Date(`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`)
     const navigate = useNavigate();
     //variables
     const { tickerSymbol } = useParams();
     const [chart, setChart] = useState("Line");
     const [timeSeries, setTimeSeries] = useState("Intraday");
     const [timeInterval, setTimeInterval] = useState("30min");
-    const [startDate, setStartDate] = useState(today);
-    const [endDate, setEndDate] = useState(today);
-    const chartStartDate = startDate;
-    const chartEndDate = endDate;
+    const [startDate, setStartDate] = useState(yesterday);
+    const [endDate, setEndDate] = useState(yesterday);
     //field conditions
     const [isTimeInterval, setIsTimeInterval] = useState(false);
     const [isIntraday, setIsIntraday] = useState(true);
+    const [btnError, setBtnError] = useState(false);
+    const [dtRangeError, setDtRangeError] = useState(false);
+    const [todayError, setTodayError] = useState(false);
     //object for graph
     const params = {
         ticker: tickerSymbol,
         chart: chart,
         timeSeries: timeSeries,
         timeInterval: timeInterval,
-        chartStartDate: chartStartDate,
-        chartEndDate: chartEndDate
+        chartStartDate: startDate,
+        chartEndDate: endDate
     };
 
-    //TODO:
-    //use that info to fetch stock data api 
-    //open a new tab with pygal
-    //final styling
+    useEffect(() => {
+        if(startDate >= today || endDate >= today) {
+            setTodayError(true);
+            setBtnError(true);
+        }else if(startDate > endDate && isIntraday == false) {
+            setDtRangeError(true);
+            setBtnError(true);
+        }else{
+            setDtRangeError(false);
+            setBtnError(false);
+            setTodayError(false);
+        }
+        
+    })
 
     function checkTimeInterval(e) {
         setTimeSeries(e.target.value);
@@ -59,6 +72,7 @@ export default function GraphOptions() {
 
     return (
         <div>
+            <Button onClick={() => { navigate('/') }} >Back</Button>
             <p>Graph Options</p>
             <FormControl>
                 <FormLabel>Chart Type</FormLabel>
@@ -94,6 +108,7 @@ export default function GraphOptions() {
                 </RadioGroup>
 
                 <Button
+                    disabled={ btnError }
                     size='large'
                     variant='contained'
                     onClick={ () => navigate({
@@ -102,13 +117,15 @@ export default function GraphOptions() {
                     })} >
                 GO
                 </Button>
+                { dtRangeError && <p>End date cannot be before start date!</p> }
+                { todayError && <p>Due to the way data is collected, we do not have todays data.</p> }
             </FormControl>
             
             <LocalizationProvider dateAdapter={AdapterDayjs} >
                 <DatePicker 
                     required={ true }
                     label="Start Date"
-                    inputFormat="MM/DD/YYYY"
+                    inputFormat="YYYY-MM-DD"
                     value={ startDate }
                     onChange={(newStartDate) => {
                         setStartDate(newStartDate);
@@ -120,7 +137,7 @@ export default function GraphOptions() {
                     disabled={isIntraday}
                     required={ true }
                     label="End Date"
-                    inputFormat="MM/DD/YYYY"
+                    inputFormat="YYYY-MM-DD"
                     value={ endDate }
                     onChange={(newEndDate) => {
                         setEndDate(newEndDate);
