@@ -3,6 +3,7 @@ import {
     List,
     ListItemText,
     ListItemButton,
+    Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,17 +16,18 @@ export default function TickerResult(props) {
 
     return(
         <div>
-            <p class='centerText'>Results</p>
+            <Typography class='centerText' variant='h2'>Results</Typography>
             
             <List>
                 {/* api returns suggestions */}
                 { suggestedTickers.length > 0 && 
                     suggestedTickers.map((symbol) => (
-                        <ListItemButton 
-                            onClick={() => {
-                                navigate(`/ticker-results/${symbol['1. symbol']}`)
-                            }}>
-                            <ListItemText primary={ `${symbol['1. symbol']} : ${symbol['2. name']}` } />
+                        <ListItemButton
+                            onClick={() => { navigate(`/ticker-results/${symbol['1. symbol']}`) }}>
+                            <ListItemText
+                                style={{display: 'flex', justifyContent: "center"}}
+                                primary={ `${symbol['1. symbol']} : ${symbol['2. name']}` }
+                            />
                         </ListItemButton>
                     ))
                 }

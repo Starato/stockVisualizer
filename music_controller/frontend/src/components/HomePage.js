@@ -15,7 +15,7 @@ export default function HomePage() {
     return(
         <div>
             <Router>
-                <Button to='/' component={ Link } >Home</Button>
+                <Button to='/' component={ Link } variant='contained'>Home</Button>
                 <Routes>
                     <Route exact path='/' element={ <SearchTicker /> } />
                     <Route path='/ticker-results/:tickerSymbol'  element={ <GraphOptions /> } />

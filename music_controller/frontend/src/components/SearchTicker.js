@@ -52,33 +52,42 @@ export default function BodyPage() {
     }
 
     return (
-        <Grid item xs={12}>
-            <Typography component='h3' variant='h3'>Stock Data Visualizer</Typography>
-            <FormControl>
-                <TextField 
-                    autoFocus
-                    required={ true }
-                    error = { error }
-                    helperText = { error == true ? "Empty Field!" : "" }
-                    label = 'Ticker Symbol'
-                    variant = 'outlined'
-                    value = { ticker }
-                    placeholder = 'IBM, Best buy'
-                    onChange = { updateTicker } 
-                    onKeyDown={ enterSubmit }
+        <div id='ticker-search-container'>
+            <Grid
+                xs={12}
+                container
+                direction="column"
+                justifyContent="space-evenly"
+                alignItems="center">
+                <Typography align="center" component='h3' variant='h3'>Stock Data Visualizer</Typography>
+                <FormControl>
+                    <TextField
+                        sx={{width: "300px"}}
+                        autoFocus
+                        required={ true }
+                        error = { error }
+                        helperText = { error == true ? "Empty Field!" : "" }
+                        label = 'Ticker Symbol'
+                        variant = 'outlined'
+                        value = { ticker }
+                        placeholder = 'IBM, Best buy'
+                        onChange = { updateTicker } 
+                        onKeyDown={ enterSubmit }
                     />
-            </FormControl>
-            <Button 
-                size ='large' 
-                variant ='contained' 
-                disabled = { error }
-                onClick = { handleSearchAutocomplete } >
-            GO
-            </Button>  
-            <Typography class='centerResultsContainer'>
-                {tickerResults && <TickerResult tickers={tickerResults} />}
-            </Typography>
-        </Grid>
+                </FormControl>
 
+                <Button
+                    sx={{width: "300px"}}
+                    size ='large' 
+                    variant ='contained'
+                    disabled = { error }
+                    onClick = { handleSearchAutocomplete } >
+                GO
+                </Button>  
+                <Typography class='centerResultsContainer' align="center">
+                    {tickerResults && <TickerResult tickers={tickerResults} />}
+                </Typography>
+            </Grid>
+        </div>
     );    
 }
