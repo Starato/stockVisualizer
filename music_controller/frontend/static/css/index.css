@@ -1,7 +1,7 @@
 html, body {
     height: 100%;
-    margin: 0;
-    padding: 0;
+    margin: auto;
+    padding: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -49,3 +49,7 @@ html, body {
     border-color: blue 1px solid;
 }
 
+#ticker-search-container {
+    position: relative;
+    top: 15vh;
+}

@@ -5,6 +5,7 @@ import {
   Grid,
   Button
 } from '@mui/material';
+import { spacing } from '@mui/system';
 
 export default function Graph() {
 
@@ -48,12 +49,13 @@ export default function Graph() {
   }
 
   return (
-    <Grid
-    item
-    container
-    justifyContent="center"
-    >
-      <Button onClick={ () => { navigate(`/ticker-results/${ticker}`) }} >Back</Button>
+    <Grid>
+      <Button
+        sx={{py: "20px"}}
+        onClick={ () => { navigate(`/ticker-results/${ticker}`) }} 
+      >
+      Back
+      </Button>
 
       <Box sx={{width: '100%', height: '100%%'}}>
         <div>
